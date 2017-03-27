@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Results</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="custom.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">People Lookup</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Upload</a></li>
+                    <li class="active"><a href="#">Results</a></li>
+                    <li><a href="#contact">Help</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <a id="export">Export</a>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <th>name</th>
+                        <th>domain</th>
+                        <th>hash</th>
+                        <th>verified_emails</th>
+                    </thead>
+                    <tbody>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ obj.name }}</td>
+                            <td>{{ obj.domain }}</td>
+                            <td>{{ obj.secret }}</td>
+                            <td>{{ obj.verified_emails }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+    <script type="text/javascript">
+$(document).ready(function() {
+
+    function exportTableToCSV($table) {
+        // console.log('inside exportTableToCSV()');
+        var $rows = $table.find('tr:has(th), tr:has(td)');
+        if ($rows.length === 1) {
+            alert("no rows found");
+            return;
+        }
+
+        var filename = prompt("enter a filename");
+
+        if (!filename) {
+            return;
+        }
+        // console.log(filename);
+        // Temporary delimiter characters unlikely to be typed by keyboard
+        // This is to avoid accidentally splitting the actual contents
+        var tmpColDelim = String.fromCharCode(11); // vertical tab character
+        var tmpRowDelim = String.fromCharCode(0); // null character
+
+        // actual delimiter characters for CSV format
+        var colDelim = '","';
+        var rowDelim = '"\r\n"';
+
+        // Grab text from table into CSV formatted string
+        var csv = '"' + $rows.map(function(i, row) {
+                var $row = $(row),
+                    $cols = $row.find('td, th');
+
+                return $cols.map(function(j, col) {
+                    var $col = $(col),
+                        text = $col.text();
+
+                    return text.replace(/"/g, '""'); // escape double quotes
+
+                }).get().join(tmpColDelim);
+
+            }).get().join(tmpRowDelim)
+            .split(tmpRowDelim).join(rowDelim)
+            .split(tmpColDelim).join(colDelim) + '"';
+
+        // Data URI
+        var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+        console.log(csvData);
+        $(this)
+            .attr({
+                'download': filename,
+                'href': csvData,
+                'target': '_blank'
+            });
+    }
+
+    // This must be a hyperlink
+    $("#export").on('click', function(event) {
+        // CSV
+        exportTableToCSV.apply(this, [$('table')]);
+
+        // IF CSV, don't do event.preventDefault() or return false
+        // We actually need this to be a typical hyperlink
+    });
+});
+</script>
+
+</body>
+
+</html>

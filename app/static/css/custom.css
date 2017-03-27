@@ -1,0 +1,65 @@
+body{
+	font-family: 'Roboto', sans-serif;
+}
+.navbar-default .navbar-collapse, .navbar-inverse{
+	background-color:#3e50b4;
+	border:none;
+	padding:10px; 
+}
+.navbar-inverse .navbar-nav>li>a{
+	color:#eee;
+}
+.navbar-inverse .navbar-brand{
+	color:#fff;
+}
+.pro-name{
+	font-weight:lighter;
+	font-size:0.8em;
+}
+.table-responsive{
+  margin-top:20px;
+}
+/* layout.css Style */
+.upload-drop-zone {
+  height: 200px;
+  border-width: 2px;
+  margin-bottom: 20px;
+}
+
+/* skin.css Style*/
+.upload-drop-zone {
+  color: #ccc;
+  border-style: dashed;
+  border-color: #ccc;
+  line-height: 200px;
+  text-align: center;
+}
+.upload-drop-zone.drop {
+  color: #222;
+  border-color: #222;
+}
+/*Login*/
+.margin-top-50{
+  margin-top:100px;
+}
+@media (max-width:768px) {
+  .company-part{
+    text-align: center;
+    padding-bottom: 20px;
+  }  
+}
+footer{
+  background: #F5F5F5;
+}
+.wrapper{
+  border:1px solid #eee;
+  padding: 30px;
+}
+.stick-footer{
+  padding-top: 15px;
+  padding-bottom: 10px;
+  position: absolute;
+  bottom: 0;
+  display:block;
+  width: 100%;
+}

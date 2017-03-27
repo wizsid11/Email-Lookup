@@ -1,0 +1,7 @@
+Django==1.9.6
+pycparser==2.14
+python-emailahoy==0.1
+redis==2.10.5
+requests==2.10.0
+termcolor==1.1.0
+

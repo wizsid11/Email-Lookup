@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Email_Finder</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+<div class='col-sm-6 col-sm-offset-3'>
+<h1>Upload file</h1>
+<form method='POST' action='' enctype='multipart/form-data'>
+{% csrf_token %}
+{{ form.as_p }}
+<input type='submit' class='btn btn-default' value='Submit'/> 
+</form>
+</div>
+
+</body>
+</html>
+<!-- <div class='col-sm-6 col-sm-offset-3'>
+<h1>JD</h1>
+<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+{{ form.as_p }}
+<input type='submit' class='btn btn-default' value='Create JD'/> 
+</form>
+</div>
+ -->
