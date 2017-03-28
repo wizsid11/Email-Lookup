@@ -6,6 +6,4 @@ class Emailfinder(models.Model):
 	domain = models.CharField(max_length=120)
 	secret = models.CharField(max_length=32)
 	verified_emails = models.EmailField()
-# class Users(models.Model):
-	
-# Create your models here.
+

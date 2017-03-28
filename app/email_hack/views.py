@@ -62,16 +62,6 @@ def handler(data):
 
 q = PubSub(r, "channel")
 
-# q.subscribe(handler)
-
-# q = PubSub(r, "channel")
-# q.publish("test data")
-# q = Pubq Sub(r, "channel")
-
-# q.subscribe(handler)
-
-
-# Create your views here.
 def md5(text):
     m = hashlib.md5()
     m.update(str(text))
@@ -80,7 +70,7 @@ def md5(text):
 
 
 def new_instance_creator(instance):
-    # objects=Emailfinder.objects.all().filter()
+
     secret = md5(json.dumps(instance))
     new.append(secret)
     print secret
@@ -94,14 +84,9 @@ def new_instance_creator(instance):
 
 
 def handle_uploaded_file(filename):
-    # print type(filename)
-    # file_contents = filename.read()
 
-    # secret=md5(file_contents)
-    # filename.close()
     dictofdata = csv.DictReader(filename)
-    # new=dictofdata
-    # print dict(dictofdata)
+
     rows = []
     for row in dictofdata:
         rows.append(row)
@@ -117,79 +102,50 @@ def handle_uploaded_file(filename):
             newdata.save()
             q.publish({'id': newdata.id, 'name': row['name'].strip().lower(), 'domain': row[
                       'domain'].strip().lower(), 'secret': secret})
-    # print rows
-    # secret = md5(json.dumps(rows))
-    # print secret
 
-    # text=json.loads(filename.read())
-    # domain=text['domain']
-    # for name in text['name']:
-
-    # newdata = Emailfinder(name=name, domain=domain)
-    # newdata.save()
 def help1(request):
     return render(request,'help.html',{})
+
 @login_required
 def home(request):
-    # new=[]
-    # n=[]
 
     if request.method == 'POST':
 
         form1 = Form1(request.POST)
-        # print form1
+
         print form1.is_valid()
         if form1.is_valid():
-            print 'checking form2'
 
-            # objects = Emailfinder.objects.all()
+
             name = request.POST['name']
             domain = request.POST['domain']
-            # print name
-            # print domain
+
             print {'name': name, 'domain': domain, 'hello':'hello'}
             new_instance_creator((name, domain))
-            # objects = Emailfinder.objects.all()
+
 
             return HttpResponseRedirect('/emailhack/people-lookup')
         form = Form(request.POST, request.FILES)
         if form.is_valid():
-            # instance=form.save(commit=False)
-            # instance.save()
-            # objects = Emailfinder.objects.all()
-            # new.append(request.FILES['file'])
-            print type(request.FILES['file'])
-            # new.append(request.FILES['file'])
             handle_uploaded_file(request.FILES['file'])
-            # objects = Emailfinder.objects.all()
+
 
             return HttpResponseRedirect('/emailhack/people-lookup')
     else:
-        # dictofdata = csv.DictReader(new[0])
-    # print dict(dictofdata)
-        # rows = []
-        # for row in new:
-            # rows.append(row)
-        # secret = md5(json.dumps(rows))
+
         try:
             objects = Emailfinder.objects.all().filter(secret=new[-1])
         except:
             objects = Emailfinder.objects.all()
-        # objects = Emailfinder.objects.all()
+
         form = Form()
         form1 = Form1()
-        # del new[:]
-    # return render(request,
-# 'account/index.html',
-# {'objects': objects})
+
     return render(request, 'index.html', {'form': form, 'form1': form1, 'objects': objects})
 
-    # context = {"objects": objects}
-    # return render(request, 'index.html', context)
 @login_required
 def logoutuser(request):
-    # for user in User.objects.filter(is_active=True):
-        # user.is_active=False
+
     logout(request)
     return HttpResponseRedirect('/emailhack')    
 
@@ -198,50 +154,33 @@ def alldata(request):
     if request.method == 'POST':
 
         form1 = Form1(request.POST)
-        # print form1
+
         print form1.is_valid()
         if form1.is_valid():
             print 'checking form2'
 
-            # objects = Emailfinder.objects.all()
             name = request.POST['name']
             domain = request.POST['domain']
-            # print name
-            # print domain
-            # print {name: name, domain: domain, 'hello':'hello'}
+
             new_instance_creator((name, domain))
-            # objects = Emailfinder.objects.all()
+
 
             return HttpResponseRedirect('/emailhack/people-lookup')
         form = Form(request.POST, request.FILES)
         if form.is_valid():
-            # instance=form.save(commit=False)
-            # instance.save()
-            # objects = Emailfinder.objects.all()
-            # new.append(request.FILES['file'])
+
             print type(request.FILES['file'])
-            # new.append(request.FILES['file'])
+
             handle_uploaded_file(request.FILES['file'])
-            # objects = Emailfinder.objects.all()
+
 
             return HttpResponseRedirect('/emailhack/people-lookup')
     else:
-        # dictofdata = csv.DictReader(new[0])
-    # print dict(dictofdata)
-        # rows = []
-        # for row in new:
-            # rows.append(row)
-        # secret = md5(json.dumps(rows))
-        # try:
-            # objects = Emailfinder.objects.all().filter(secret=new[-1])
-        # except:
-            # objects = Emailfinder.objects.all()
+
         objects = Emailfinder.objects.all()
         form = Form()
         form1 = Form1()
-        # del new[:]
+
     return render(request, 'index.html', {'form': form, 'form1': form1, 'objects': objects})
 
-    # objects = Emailfinder.objects.all()
-    # context = {"objects": objects}
-    # return render(request, 'index.html', context)
+

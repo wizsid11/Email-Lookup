@@ -3,40 +3,14 @@ import redis
 import json
 import re, itertools
 from helper.info import get_all_verified_emails
-# export DJANGO_SETTINGS_MODULE=email_finder.settings
+
 conn = sqlite3.connect('./app/db.sqlite3')
 c = conn.cursor()
 
 
 class PubSub(object):
 
-    """
-    Very simple Pub/Sub pattern wrapper
-    using simplified Redis Pub/Sub functionality.
 
-    Usage (publisher)::
-
-        import redis
-
-        r = redis.Redis()
-
-        q = PubSub(r, "channel")
-        q.publish("test data")
-
-
-    Usage (listener)::
-
-        import redis
-
-        r = redis.Redis()
-        q = PubSub(r, "channel")
-
-        def handler(data):
-            print "Data received: %r" % data
-
-        q.subscribe(handler)
-
-    """
 
     def __init__(self, redis, channel="default"):
         self.redis = redis
@@ -84,8 +58,7 @@ def main():
 
     q = PubSub(r, "channel")
     q.publish("test data")
-    # q = Pubq Sub(r, "channel")
-
+ 
     q.subscribe(handler)
 
 if __name__ == '__main__':
